@@ -4,38 +4,56 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-	// 変数の定義と初期化
-	public float flap = 550f;
+	public float flap = 600f;
 	public float scroll = 10f;
-	Rigidbody2D rb2d;
 
-	// Updateの前に1回だけ呼ばれるメソッド
-	void Start() {
-		// Rigidbody2Dをキャッシュする
-		rb2d = GetComponent<Rigidbody2D>();
+	Rigidbody2D rigidbody2D;
+	GameControllerbk gameController;
+	GameObject scoreGUI;
+
+	void Awake(){
+		rigidbody2D = GetComponent<Rigidbody2D>();
+		gameController = GameObject.Find("GameController").GetComponent<GameControllerbk>();
+		scoreGUI = GameObject.Find("ScoreGUI");
 	}
 
-	// シーン中にフレーム毎に呼ばれるメソッド
-	void Update() {
-		// xの正方向にscrollスピードで移動
-		rb2d.velocity = new Vector2(scroll, rb2d.velocity.y);
+	void Start(){
+		rigidbody2D.isKinematic = true;
+	}
 
-		// スペースキーが押されたら
-		if (Input.GetKeyDown(KeyCode.Space)) {
-			// 落下速度をリセット
-			rb2d.velocity = Vector2.zero;
-			// (0,1)方向に瞬間的に力を加えて跳ねさせる
-			rb2d.AddForce(Vector2.up * flap, ForceMode2D.Impulse);
+	void FixedUpdate(){
+		// if (gameController[0].isPlaying == true) {
+		if (gameController.isPlaying == true) {
+			rigidbody2D.velocity = new Vector2(scroll, rigidbody2D.velocity.y);
 		}
 	}
 
-	// ColliderのIs Triggerにチェック有のオブジェクトとの衝突を検出する関数
+	void Update () {
+		if (Input.GetKeyDown ("space")) {
+			if(gameController.isPlaying == false){
+				gameController.SendMessage("GameStart");
+				rigidbody2D.isKinematic = false;
+			}
+			rigidbody2D.velocity = Vector2.zero;
+			rigidbody2D.AddForce(Vector2.up * flap, ForceMode2D.Impulse);
+		}
+	} 
+
+	void Move() {
+		if (gameController.isPlaying == true) {
+			rigidbody2D.velocity = new Vector2(scroll, rigidbody2D.velocity.y);
+		}
+	}
+
 	void OnTriggerEnter2D(Collider2D col){
-		// CountZoneのタグが付いたオブジェクトと衝突したとき
 		if(col.gameObject.tag == "CountZone"){
-			// ScoreスクリプトのAddScore関数に値を送信する
-			GameObject.Find("ScoreGUI").SendMessage("AddScore", 1);
-			GameObject.Find("ScoreGUI");
+			scoreGUI.SendMessage("AddScore", 1);
+		}
+	}
+
+	void OnCollisionEnter2D(Collision2D col){
+		if(col.gameObject.tag == "Death"){
+			gameController.SendMessage("GameOver");
 		}
 	}
 }
