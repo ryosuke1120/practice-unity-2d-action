@@ -7,6 +7,7 @@ public class GameControllerbk : MonoBehaviour {
 	private GameObject player;
 	private GameObject[] start;
 	private GameObject[] gameOver;
+	private GameObject spawnPoint;
 	// public static bool isPlaying;
 	public bool isPlaying;
 
@@ -18,6 +19,7 @@ public class GameControllerbk : MonoBehaviour {
 		// player = GameObject.FindGameObjectsWithTag("Player");
 		start = GameObject.FindGameObjectsWithTag("Start");
 		gameOver = GameObject.FindGameObjectsWithTag("GameOver");
+		spawnPoint = GameObject.Find("SpawnPoint");
 	}
 
 	void Start (){
@@ -40,6 +42,7 @@ public class GameControllerbk : MonoBehaviour {
 		{
 			sObject.SetActive (false);
 		}
+		spawnPoint.SendMessage("StartSpawn");
 		isPlaying = true;
 	}
 
@@ -49,6 +52,7 @@ public class GameControllerbk : MonoBehaviour {
 			foreach (GameObject goObject in gameOver) {
 				goObject.SetActive (true);
 			}
+			// spawnPoint.SendMessage("SpawnWalls");
 			isPlaying = false;
 			player.GetComponent<Player>().enabled = false;
 		}

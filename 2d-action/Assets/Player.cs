@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
 	public float flap = 600f;
-	public float scroll = 10f;
+	// public float scroll = 10f;
 
 	Rigidbody2D rigidbody2D;
 	GameControllerbk gameController;
@@ -21,12 +21,12 @@ public class Player : MonoBehaviour {
 		rigidbody2D.isKinematic = true;
 	}
 
-	void FixedUpdate(){
-		// if (gameController[0].isPlaying == true) {
-		if (gameController.isPlaying == true) {
-			rigidbody2D.velocity = new Vector2(scroll, rigidbody2D.velocity.y);
-		}
-	}
+	// void FixedUpdate(){
+	// 	// if (gameController[0].isPlaying == true) {
+	// 	if (gameController.isPlaying == true) {
+	// 		rigidbody2D.velocity = new Vector2(scroll, rigidbody2D.velocity.y);
+	// 	}
+	// }
 
 	void Update () {
 		if (Input.GetKeyDown ("space")) {
@@ -39,11 +39,11 @@ public class Player : MonoBehaviour {
 		}
 	} 
 
-	void Move() {
-		if (gameController.isPlaying == true) {
-			rigidbody2D.velocity = new Vector2(scroll, rigidbody2D.velocity.y);
-		}
-	}
+	// void Move() {
+	// 	if (gameController.isPlaying == true) {
+	// 		rigidbody2D.velocity = new Vector2(scroll, rigidbody2D.velocity.y);
+	// 	}
+	// }
 
 	void OnTriggerEnter2D(Collider2D col){
 		if(col.gameObject.tag == "CountZone"){
