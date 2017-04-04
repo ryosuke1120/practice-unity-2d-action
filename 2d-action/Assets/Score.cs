@@ -4,12 +4,40 @@ using UnityEngine;
 
 public class Score : MonoBehaviour {
 
-	public GUIText scoreGUI;
+	public GameObject scoreGUI;
+	public GameObject highscoreGUI;
 	private int score;
+	private int highScore;
+
+	private GameObject[] scoreObjects;
+
+	void Awake(){
+		scoreObjects = GameObject.FindGameObjectsWithTag("Score");
+		scoreGUI = scoreObjects[0];
+		highscoreGUI = scoreObjects[1];
+	}
 
 	// シーン開始時に一度だけ呼ばれる関数
 	void Start(){
 		score = 0;
+		// キーを使って値を取得
+		// キーがない場合は第二引数の値を取得
+		highScore = PlayerPrefs.GetInt("highScoreKey", 0);
+	}
+
+	void Update () {
+		// Scoreが現在のハイスコアを上回ったらhighScoreを更新
+		if(highScore < score) highScore = score;
+
+		scoreGUI.GetComponent<GUIText>().text = "" + score;
+		highscoreGUI.GetComponent<GUIText>().text = "" + highScore;
+	}
+
+	public void Save(){
+		// メソッドが呼ばれたときのキーと値をセットする
+		PlayerPrefs.SetInt("highScoreKey", highScore);
+		// キーと値を保存
+		PlayerPrefs.Save();
 	}
 
 	// スコアの加算
@@ -18,10 +46,9 @@ public class Score : MonoBehaviour {
 		score = score + s;
 	}
 
-	// シーン中にフレーム毎に呼ばれる関数
-	void Update () {
-		// スコアの表示
-		scoreGUI = gameObject.GetComponent<GUIText>();
-		scoreGUI.text = "" + score;
+	public void Reset(){
+		// キーを全て消す
+		PlayerPrefs.DeleteAll();
 	}
+
 }

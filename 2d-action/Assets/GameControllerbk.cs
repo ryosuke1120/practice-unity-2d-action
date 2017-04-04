@@ -20,6 +20,7 @@ public class GameControllerbk : MonoBehaviour {
 		start = GameObject.FindGameObjectsWithTag("Start");
 		gameOver = GameObject.FindGameObjectsWithTag("GameOver");
 		spawnPoint = GameObject.Find("SpawnPoint");
+		GameObject.Find("ScoreGUI").SendMessage("Save");
 	}
 
 	void Start (){
