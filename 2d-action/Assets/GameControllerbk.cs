@@ -53,7 +53,7 @@ public class GameControllerbk : MonoBehaviour {
 			foreach (GameObject goObject in gameOver) {
 				goObject.SetActive (true);
 			}
-			// spawnPoint.SendMessage("SpawnWalls");
+			spawnPoint.SendMessage("StopSpawn");
 			isPlaying = false;
 			player.GetComponent<Player>().enabled = false;
 		}

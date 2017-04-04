@@ -8,7 +8,7 @@ public class SpawnPoint : MonoBehaviour {
 	public float interval;
 
 	void Update () {
-		transform.position = new Vector3(transform.position.x, Random.Range(5f,30f), transform.position.z);
+		transform.position = new Vector3(transform.position.x, Random.Range(-5f,20f), transform.position.z);
 	}
 
 	public void StartSpawn(){

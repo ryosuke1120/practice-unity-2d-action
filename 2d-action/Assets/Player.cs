@@ -52,7 +52,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D col){
-		if(col.gameObject.tag == "Death"){
+		if(col.gameObject.tag == "Wall" || col.gameObject.tag == "Floor"){
 			gameController.SendMessage("GameOver");
 		}
 	}
